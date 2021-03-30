@@ -1,5 +1,7 @@
 package models;
 
+import utilities.DBUtility;
+
 import java.time.LocalDate;
 import java.util.TreeMap;
 
@@ -30,6 +32,21 @@ public class Student extends Person{
 
     public void addGrade(String courseCRN, int grade)
     {
+        if (!DBUtility.validCRN((courseCRN)))
+            throw new IllegalArgumentException("course crn not found");
 
+        if(grade>=0 && grade<=100)
+            grades.put(courseCRN, grade);
+
+        else{
+            throw new IllegalArgumentException("grade must be between 0- 100");
+        }
+    }
+
+    public int getGradeForCourse(String crn){
+        if (grades.get(crn) == null){
+            return -1;
+        }
+        return grades.get(crn);
     }
 }
